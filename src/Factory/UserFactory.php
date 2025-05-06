@@ -37,7 +37,7 @@ final class UserFactory extends PersistentProxyObjectFactory{
             'email' => 'admin@fac.ma',
             'roles' => ['ROLE_ADMIN'],
             'password' => '$2y$13$w7usfxJhm1MP8qjT8TDNzOq.UuYWFuZszfwqX/agMwG8JeqWgacZ.',
-            'username' => 'Admin',
+            'username' => 'admin',
             'locale' => 'fr',
             'is_verifier' => true,
             
