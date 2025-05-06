@@ -29,6 +29,12 @@ class Product
     #[ORM\Column]
     private ?int $quantity = null;
 
+    #[ORM\ManyToOne(inversedBy: 'products')]
+    private ?Condition $condition_0 = null;
+
+    #[ORM\ManyToOne(inversedBy: 'products')]
+    private ?Category $category_0 = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -90,6 +96,30 @@ class Product
     public function setQuantity(int $quantity): static
     {
         $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    public function getCondition0(): ?Condition
+    {
+        return $this->condition_0;
+    }
+
+    public function setCondition0(?Condition $condition_0): static
+    {
+        $this->condition_0 = $condition_0;
+
+        return $this;
+    }
+
+    public function getCategory0(): ?Category
+    {
+        return $this->category_0;
+    }
+
+    public function setCategory0(?Category $category_0): static
+    {
+        $this->category_0 = $category_0;
 
         return $this;
     }
