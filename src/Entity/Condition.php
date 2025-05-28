@@ -43,7 +43,6 @@ class Condition
     public function setLabel(string $label): static
     {
         $this->label = $label;
-
         return $this;
     }
 
@@ -61,19 +60,21 @@ class Condition
             $this->products->add($product);
             $product->setCondition0($this);
         }
-
         return $this;
     }
 
     public function removeProduct(Product $product): static
     {
         if ($this->products->removeElement($product)) {
-            // set the owning side to null (unless already changed)
             if ($product->getCondition0() === $this) {
                 $product->setCondition0(null);
             }
         }
-
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->label ?? '';
     }
 }

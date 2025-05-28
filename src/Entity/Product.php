@@ -5,8 +5,12 @@ namespace App\Entity;
 use App\Repository\ProductRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
+#[Vich\Uploadable]
+#[ORM\HasLifecycleCallbacks] // Explicitly enable lifecycle callbacks
 class Product
 {
     #[ORM\Id]
@@ -21,10 +25,13 @@ class Product
     private ?string $description = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $price = null;
+    private ?float $price = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $image = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $imageName = null;
+
+    #[Vich\UploadableField(mapping: 'product_images', fileNameProperty: 'imageName')]
+    private ?File $imageFile = null;
 
     #[ORM\Column]
     private ?int $quantity = null;
@@ -35,6 +42,32 @@ class Product
     #[ORM\ManyToOne(inversedBy: 'products')]
     private ?Category $category_0 = null;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private \DateTime $createdAt; // Remove nullable type to ensure it's always set
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private \DateTime $updatedAt; // Remove nullable type to ensure it's always set
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime(); // Set default value in constructor
+        $this->updatedAt = new \DateTime();
+    }
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
+    {
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
+    }
+
+    #[ORM\PreUpdate]
+    public function setUpdatedAtValue(): void
+    {
+        $this->updatedAt = new \DateTime();
+    }
+
+    // Getters and setters
     public function getId(): ?int
     {
         return $this->id;
@@ -48,7 +81,6 @@ class Product
     public function setName(string $name): static
     {
         $this->name = $name;
-
         return $this;
     }
 
@@ -60,31 +92,42 @@ class Product
     public function setDescription(string $description): static
     {
         $this->description = $description;
-
         return $this;
     }
 
-    public function getPrice(): ?string
+    public function getPrice(): ?float
     {
         return $this->price;
     }
 
-    public function setPrice(string $price): static
+    public function setPrice(float $price): static
     {
         $this->price = $price;
-
         return $this;
     }
 
-    public function getImage(): ?string
+    public function getImageName(): ?string
     {
-        return $this->image;
+        return $this->imageName;
     }
 
-    public function setImage(string $image): static
+    public function setImageName(?string $imageName): static
     {
-        $this->image = $image;
+        $this->imageName = $imageName;
+        return $this;
+    }
 
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    public function setImageFile(?File $imageFile = null): static
+    {
+        $this->imageFile = $imageFile;
+        if ($imageFile) {
+            $this->updatedAt = new \DateTime();
+        }
         return $this;
     }
 
@@ -96,7 +139,6 @@ class Product
     public function setQuantity(int $quantity): static
     {
         $this->quantity = $quantity;
-
         return $this;
     }
 
@@ -108,7 +150,6 @@ class Product
     public function setCondition0(?Condition $condition_0): static
     {
         $this->condition_0 = $condition_0;
-
         return $this;
     }
 
@@ -120,7 +161,28 @@ class Product
     public function setCategory0(?Category $category_0): static
     {
         $this->category_0 = $category_0;
+        return $this;
+    }
 
+    public function getCreatedAt(): \DateTime
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTime $createdAt): static
+    {
+        $this->createdAt = $createdAt;
+        return $this;
+    }
+
+    public function getUpdatedAt(): \DateTime
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTime $updatedAt): static
+    {
+        $this->updatedAt = $updatedAt;
         return $this;
     }
 }
