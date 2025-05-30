@@ -42,6 +42,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?bool $is_verifier = null;
 
+    #[ORM\Column(length: 64, nullable: true)]
+    private ?string $verificationToken = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -131,10 +134,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->locale;
     }
 
-    public function setLocale(string $locale): static
+    public function setLocale(string $locale): self
     {
         $this->locale = $locale;
-
         return $this;
     }
 
@@ -147,6 +149,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->is_verifier = $is_verifier;
 
+        return $this;
+    }
+
+    public function getVerificationToken(): ?string
+    {
+        return $this->verificationToken;
+    }
+
+    public function setVerificationToken(?string $token): self
+    {
+        $this->verificationToken = $token;
         return $this;
     }
 }
