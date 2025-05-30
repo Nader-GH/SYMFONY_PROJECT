@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+{% block title %}Order History{% endblock %}
+{% block body %}
+<h1>My Orders</h1>
+<table>
+    <tr>
+        <th>Order ID</th>
+        <th>Date</th>
+        <th>Total</th>
+        <th>Status</th>
+        <th>Details</th>
+    </tr>
+    {% for order in orders %}
+        <tr>
+            <td>{{ order.id }}</td>
+            <td>{{ order.createdAt|date('Y-m-d H:i') }}</td>
+            <td>{{ order.total|number_format(2) }} €</td>
+            <td>{{ order.status }}</td>
+            <td><a href="{{ path('order_show', {'id': order.id}) }}">View</a></td>
+        </tr>
+    {% else %}
+        <tr><td colspan="5">No orders found.</td></tr>
+    {% endfor %}
+</table>
+{% endblock %}

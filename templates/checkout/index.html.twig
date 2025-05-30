@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+{% block title %}Checkout{% endblock %}
+{% block body %}
+<h1>Checkout</h1>
+<table>
+    <tr>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Price</th>
+        <th>Subtotal</th>
+    </tr>
+    {% for product in products %}
+        <tr>
+            <td>{{ product.name }}</td>
+            <td>{{ cart[product.id] }}</td>
+            <td>{{ product.price|number_format(2) }} €</td>
+            <td>{{ (product.price * cart[product.id])|number_format(2) }} €</td>
+        </tr>
+    {% endfor %}
+</table>
+<p><strong>Total: </strong>{{ total|number_format(2) }} €</p>
+<form method="post" action="{{ path('checkout_confirm') }}">
+    <button type="submit">Confirm Order</button>
+</form>
+{% endblock %}

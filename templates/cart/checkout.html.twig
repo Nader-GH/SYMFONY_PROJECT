@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+{% block title %}Commande - Confirmation{% endblock %}
+{% block body %}
+<h1>Confirmation de la commande</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Produit</th>
+            <th>Quantité</th>
+            <th>Prix unitaire</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% set total = 0 %}
+        {% for product in products %}
+            <tr>
+                <td>{{ product.name }}</td>
+                <td>{{ cart[product.id] }}</td>
+                <td>{{ product.price|number_format(2, '.', ',') }} €</td>
+                <td>{{ (product.price * cart[product.id])|number_format(2, '.', ',') }} €</td>
+            </tr>
+            {% set total = total + (product.price * cart[product.id]) %}
+        {% endfor %}
+    </tbody>
+</table>
+<p><strong>Total : {{ total|number_format(2, '.', ',') }} €</strong></p>
+<form action="{{ path('checkout_confirm') }}" method="post">
+    <button type="submit">Confirmer la commande</button>
+</form>
+{% endblock %}
