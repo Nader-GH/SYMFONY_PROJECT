@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+{% block title %}Mon Panier{% endblock %}
+{% block body %}
+<h1>Mon Panier</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Produit</th>
+            <th>Quantité</th>
+            <th>Prix unitaire</th>
+            <th>Total</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% set total = 0 %}
+        {% for product in products %}
+            <tr>
+                <td>{{ product.name }}</td>
+                <td>{{ cart[product.id] }}</td>
+                <td>{{ product.price|number_format(2, '.', ',') }} €</td>
+                <td>{{ (product.price * cart[product.id])|number_format(2, '.', ',') }} €</td>
+                <td>
+                    <form action="{{ path('cart_update', {'id': product.id}) }}" method="post" style="display:inline;">
+                        <input type="number" name="quantity" value="{{ cart[product.id] }}" min="1" style="width:50px;">
+                        <button type="submit">Mettre à jour</button>
+                    </form>
+                    <a href="{{ path('cart_remove', {'id': product.id}) }}">Supprimer</a>
+                </td>
+            </tr>
+            {% set total = total + (product.price * cart[product.id]) %}
+        {% endfor %}
+    </tbody>
+</table>
+<p><strong>Total : {{ total|number_format(2, '.', ',') }} €</strong></p>
+<a href="{{ path('cart_clear') }}">Vider le panier</a>
+{% if app.user %}
+    <a href="{{ path('checkout') }}">Passer la commande</a>
+{% else %}
+    <a href="{{ path('app_login') }}">Connectez-vous pour commander</a>
+{% endif %}
+{% endblock %}
