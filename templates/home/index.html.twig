@@ -1,20 +1,55 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Home | Luxury Fashion Accessories{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/xampp/htdocs/SYMFONY_PROJECT/src/Controller/HomeController.php</code></li>
-        <li>Your template at <code>C:/xampp/htdocs/SYMFONY_PROJECT/templates/home/index.html.twig</code></li>
-    </ul>
+<div class="row mb-5">
+    <div class="col-12 text-center">
+        <h1 class="display-4 fw-bold">Flash Sales</h1>
+        <p class="lead">Exclusive deals on luxury fashion accessories. Shop now and save big!</p>
+    </div>
+</div>
+<div class="row row-cols-1 row-cols-md-4 g-4">
+    {# Example product cards, replace with dynamic content later #}
+    <div class="col">
+        <div class="card h-100 border-0 shadow-sm">
+            <img src="/images/products/placeholder1.jpg" class="card-img-top" alt="Designer Heels">
+            <div class="card-body">
+                <h5 class="card-title">Designer Heels</h5>
+                <p class="card-text text-muted mb-1"><del>$499</del> <span class="text-danger fw-bold">$299</span></p>
+                <a href="#" class="btn btn-dark w-100">View Details</a>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card h-100 border-0 shadow-sm">
+            <img src="/images/products/placeholder2.jpg" class="card-img-top" alt="Artisanal Jewelry">
+            <div class="card-body">
+                <h5 class="card-title">Artisanal Jewelry</h5>
+                <p class="card-text text-muted mb-1"><del>$299</del> <span class="text-danger fw-bold">$179</span></p>
+                <a href="#" class="btn btn-dark w-100">View Details</a>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card h-100 border-0 shadow-sm">
+            <img src="/images/products/placeholder3.jpg" class="card-img-top" alt="Premium Wallet">
+            <div class="card-body">
+                <h5 class="card-title">Premium Wallet</h5>
+                <p class="card-text text-muted mb-1"><del>$199</del> <span class="text-danger fw-bold">$99</span></p>
+                <a href="#" class="btn btn-dark w-100">View Details</a>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card h-100 border-0 shadow-sm">
+            <img src="/images/products/placeholder4.jpg" class="card-img-top" alt="Smartwatch">
+            <div class="card-body">
+                <h5 class="card-title">Smartwatch</h5>
+                <p class="card-text text-muted mb-1"><del>$399</del> <span class="text-danger fw-bold">$249</span></p>
+                <a href="#" class="btn btn-dark w-100">View Details</a>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
