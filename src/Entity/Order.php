@@ -18,8 +18,8 @@ class Order
     #[ORM\JoinColumn(nullable: false)]
     private $user;
 
-    #[ORM\Column(type: 'json')]
-    private $items = [];
+    #[ORM\OneToMany(mappedBy: 'order', targetEntity: OrderItem::class, cascade: ['persist', 'remove'])]
+    private $items;
 
     #[ORM\Column(type: 'float')]
     private $totalPrice;
@@ -29,6 +29,11 @@ class Order
 
     #[ORM\Column(type: 'datetime')]
     private $createdAt;
+
+    public function __construct()
+    {
+        $this->items = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -40,7 +45,7 @@ class Order
         return $this->user;
     }
 
-    public function getItems(): array
+    public function getItems()
     {
         return $this->items;
     }
@@ -66,12 +71,6 @@ class Order
         return $this;
     }
 
-    public function setItems($items): self
-    {
-        $this->items = $items;
-        return $this;
-    }
-
     public function setTotalPrice($totalPrice): self
     {
         $this->totalPrice = $totalPrice;
@@ -87,6 +86,25 @@ class Order
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+        return $this;
+    }
+
+    public function addItem(OrderItem $item): self
+    {
+        if (!$this->items->contains($item)) {
+            $this->items[] = $item;
+            $item->setOrder($this);
+        }
+        return $this;
+    }
+
+    public function removeItem(OrderItem $item): self
+    {
+        if ($this->items->removeElement($item)) {
+            if ($item->getOrder() === $this) {
+                $item->setOrder(null);
+            }
+        }
         return $this;
     }
 }

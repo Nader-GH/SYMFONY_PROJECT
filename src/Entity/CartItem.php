@@ -2,19 +2,21 @@
 
 namespace App\Entity;
 
+use App\Entity\Cart;
+use App\Entity\Product;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
-class OrderItem
+class CartItem
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\ManyToOne(targetEntity: Order::class, inversedBy: 'items')]
+    #[ORM\ManyToOne(targetEntity: Cart::class)]
     #[ORM\JoinColumn(nullable: false)]
-    private $order;
+    private $cart;
 
     #[ORM\ManyToOne(targetEntity: Product::class)]
     #[ORM\JoinColumn(nullable: false)]
@@ -31,14 +33,14 @@ class OrderItem
         return $this->id;
     }
 
-    public function getOrder(): ?Order
+    public function getCart(): ?Cart
     {
-        return $this->order;
+        return $this->cart;
     }
 
-    public function setOrder(?Order $order): self
+    public function setCart(?Cart $cart): self
     {
-        $this->order = $order;
+        $this->cart = $cart;
         return $this;
     }
 
