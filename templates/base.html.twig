@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Luxury Fashion Accessories{% endblock %}</title>
-    <link rel="stylesheet" href="/assets/styles/app.css">
+    <link rel="stylesheet" href="/assets/css/theme.min.css">
     {% block stylesheets %}{% endblock %}
 </head>
 <body style="background-color: #87CEEB;">
@@ -24,11 +24,12 @@
             </div>
         </div>
     </nav>
-    <div class="container">
-        {% block body %}{% endblock %}
+    <div class="container d-flex align-items-center justify-content-center" style="min-height: 80vh;">
+        <div class="w-100" style="max-width: 400px;">
+            {% block body %}{% endblock %}
+        </div>
     </div>
-    <script src="/js/bootstrap.bundle.min.js"></script>
-    <script src="/js/main.js"></script>
+    <script src="/assets/js/theme.min.js"></script>
     {% block javascripts %}{% endblock %}
 </body>
 </html>
