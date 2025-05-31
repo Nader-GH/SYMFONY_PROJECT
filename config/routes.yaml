@@ -6,3 +6,19 @@ controllers:
 dashboard:
     path: /admin
     controller: App\Controller\Admin\DashboardController::index
+admin_manage_users:
+    path: /admin/users/manage
+    controller: App\Controller\Admin\AdminDashboardController::manageUsers
+    methods: [GET]
+admin_user_promote:
+    path: /admin/user/promote
+    controller: App\Controller\Admin\AdminDashboardController::promoteUser
+    methods: [POST]
+admin_user_demote:
+    path: /admin/user/demote
+    controller: App\Controller\Admin\AdminDashboardController::demoteUser
+    methods: [POST]
+admin_user_delete:
+    path: /admin/user/delete
+    controller: App\Controller\Admin\AdminDashboardController::deleteUser
+    methods: [POST]

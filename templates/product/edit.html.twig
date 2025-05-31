@@ -3,11 +3,48 @@
 {% block title %}Edit Product{% endblock %}
 
 {% block body %}
-    <h1>Edit Product</h1>
-
-    {{ include('product/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('app_product_index') }}">back to list</a>
-
-    {{ include('product/_delete_form.html.twig') }}
+<div class="container py-5">
+    <h1 class="mb-4 fw-bold">✏️ Edit Product</h1>
+    <p class="mb-4 text-muted">Update your product details below.</p>
+    <div class="card p-4 shadow-sm">
+        {{ form_start(form) }}
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label class="form-label fw-semibold">Product Name</label>
+                {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="col-md-6">
+                <label class="form-label fw-semibold">Category</label>
+                {{ form_widget(form.category_0, {'attr': {'class': 'form-select'}}) }}
+            </div>
+            <div class="col-md-6">
+                <label class="form-label fw-semibold">Price (€)</label>
+                <div class="input-group">
+                    <span class="input-group-text">€</span>
+                    {{ form_widget(form.price, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label fw-semibold">Quantity</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-people"></i></span>
+                    {{ form_widget(form.quantity, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="col-12">
+                <label class="form-label fw-semibold">Product Image</label>
+                {{ form_widget(form.imageFile, {'attr': {'class': 'form-control'}}) }}
+                <small class="text-muted">JPEG, PNG, WEBP (Max 2MB)</small>
+            </div>
+        </div>
+        <div class="mt-4 d-flex gap-2">
+            <button class="btn btn-primary px-4">Update</button>
+            <a href="{{ path('app_product_index') }}" class="btn btn-secondary">Back to list</a>
+        </div>
+        {{ form_end(form) }}
+    </div>
+    <div class="mt-3">
+        {{ include('product/_delete_form.html.twig') }}
+    </div>
+</div>
 {% endblock %}

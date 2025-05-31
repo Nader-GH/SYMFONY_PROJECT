@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block body %}
+<h1>Admin Dashboard</h1>
+<h2>User Statistics</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>User</th>
+            <th>Email</th>
+            <th>Orders</th>
+            <th>Total Paid (€)</th>
+            <th>Role</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for stat in userStats %}
+            <tr>
+                <td>{{ stat.user.username }}</td>
+                <td>{{ stat.user.email }}</td>
+                <td>{{ stat.orders }}</td>
+                <td>{{ stat.totalPaid|number_format(2, '.', ',') }}</td>
+                <td>{{ stat.user.roles|join(', ') }}</td>
+                <td>
+                    {% if 'ROLE_ADMIN' not in stat.user.roles %}
+                        <a href="{{ path('admin_user_promote', {'id': stat.user.id}) }}" class="btn btn-success btn-sm">Promote to Admin</a>
+                    {% else %}
+                        <a href="{{ path('admin_user_demote', {'id': stat.user.id}) }}" class="btn btn-warning btn-sm">Demote</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<h2>All Orders</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>User</th>
+            <th>Total (€)</th>
+            <th>Status</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for order in orders %}
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.user.username }}</td>
+                <td>{{ order.totalPrice|number_format(2, '.', ',') }}</td>
+                <td>{{ order.status }}</td>
+                <td>{{ order.createdAt|date('Y-m-d H:i') }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -32,6 +32,33 @@
     </div>
   </div>
 </section>
+<section class="container py-4">
+  <form method="get" action="{{ path('app_home') }}" class="row g-2 align-items-end mb-4">
+    <div class="col-md-4">
+      <input type="text" name="q" class="form-control" placeholder="Search products..." value="{{ app.request.get('q') }}">
+    </div>
+    <div class="col-md-2">
+      <select name="category" class="form-select">
+        <option value="">All Categories</option>
+        {% for cat in categories %}
+          <option value="{{ cat.name }}" {% if app.request.get('category') == cat.name %}selected{% endif %}>{{ cat.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-md-2">
+      <input type="number" name="min_price" class="form-control" placeholder="Min price" value="{{ app.request.get('min_price') }}">
+    </div>
+    <div class="col-md-2">
+      <input type="number" name="max_price" class="form-control" placeholder="Max price" value="{{ app.request.get('max_price') }}">
+    </div>
+    <div class="col-md-2">
+      <button type="submit" class="btn btn-dark w-100">Search</button>
+    </div>
+  </form>
+  <div class="d-flex gap-2 mb-4">
+    <!-- Removed all buttons from the middle as requested -->
+  </div>
+</section>
 <section class="py-0">
   <div class="container">
     <div class="row h-100">
@@ -56,6 +83,7 @@
                   <div class="mb-2">
                     <span class="badge bg-light text-dark">Stock: {{ product.quantity }}</span>
                   </div>
+                  <div class="mb-2 text-muted small">{{ product.description|slice(0, 60) ~ (product.description|length > 60 ? '...' : '') }}</div>
                   <div class="d-flex flex-column gap-2">
                     <a href="{{ path('app_product_show', {'id': product.id}) }}" class="btn btn-outline-dark btn-sm w-100 mb-2">
                       <i class="bi bi-eye"></i> View

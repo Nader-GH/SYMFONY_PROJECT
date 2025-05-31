@@ -7,6 +7,7 @@ use App\Entity\Product;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
+#[ORM\Table(name: "orders")]
 class Order
 {
     #[ORM\Id]

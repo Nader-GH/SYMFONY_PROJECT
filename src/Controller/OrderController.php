@@ -20,4 +20,17 @@ class OrderController extends AbstractController
             'orders' => $orders,
         ]);
     }
+
+    #[Route('/orders/{id}', name: 'order_show')]
+    #[IsGranted('ROLE_USER')]
+    public function show(Order $order): Response
+    {
+        // Security: Only allow the owner or admin to view
+        if ($order->getUser() !== $this->getUser() && !$this->isGranted('ROLE_ADMIN')) {
+            throw $this->createAccessDeniedException();
+        }
+        return $this->render('order/show.html.twig', [
+            'order' => $order,
+        ]);
+    }
 }
