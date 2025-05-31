@@ -1,0 +1,14 @@
+[1mdiff --git a/templates/base.html.twig b/templates/base.html.twig[m
+[1mindex 094b494..06b2885 100644[m
+[1m--- a/templates/base.html.twig[m
+[1m+++ b/templates/base.html.twig[m
+[36m@@ -4,8 +4,7 @@[m
+     <meta charset="UTF-8">[m
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">[m
+     <title>{% block title %}Luxury Fashion Accessories{% endblock %}</title>[m
+[31m-    <link rel="stylesheet" href="/css/style.css">[m
+[31m-    <link rel="stylesheet" href="/css/bootstrap.min.css">[m
+[32m+[m[32m    <link rel="stylesheet" href="/assets/styles/app.css">[m
+     {% block stylesheets %}{% endblock %}[m
+ </head>[m
+ <body style="background-color: #87CEEB;">[m

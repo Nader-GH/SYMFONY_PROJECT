@@ -1,25 +1,33 @@
 {% extends 'base.html.twig' %}
 {% block title %}Order History{% endblock %}
 {% block body %}
-<h1>My Orders</h1>
-<table>
-    <tr>
-        <th>Order ID</th>
-        <th>Date</th>
-        <th>Total</th>
-        <th>Status</th>
-        <th>Details</th>
-    </tr>
-    {% for order in orders %}
-        <tr>
-            <td>{{ order.id }}</td>
-            <td>{{ order.createdAt|date('Y-m-d H:i') }}</td>
-            <td>{{ order.total|number_format(2) }} €</td>
-            <td>{{ order.status }}</td>
-            <td><a href="{{ path('order_show', {'id': order.id}) }}">View</a></td>
-        </tr>
-    {% else %}
-        <tr><td colspan="5">No orders found.</td></tr>
-    {% endfor %}
-</table>
+<div class="container py-5">
+    <h1 class="mb-4 text-center fw-bold">My Orders</h1>
+    <div class="table-responsive">
+        <table class="table align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>Order ID</th>
+                    <th>Date</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                    <tr>
+                        <td>{{ order.id }}</td>
+                        <td>{{ order.createdAt|date('Y-m-d H:i') }}</td>
+                        <td>{{ order.total|number_format(2) }} €</td>
+                        <td>{{ order.status }}</td>
+                        <td><a href="{{ path('order_show', {'id': order.id}) }}" class="btn btn-outline-dark btn-sm"><i class="bi bi-eye"></i> View</a></td>
+                    </tr>
+                {% else %}
+                    <tr><td colspan="5" class="text-center">No orders found.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 {% endblock %}

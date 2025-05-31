@@ -1,55 +1,90 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Home | Luxury Fashion Accessories{% endblock %}
+{% block title %}Home | Majestic{% endblock %}
 
 {% block body %}
-<div class="row mb-5">
-    <div class="col-12 text-center">
-        <h1 class="display-4 fw-bold">Flash Sales</h1>
-        <p class="lead">Exclusive deals on luxury fashion accessories. Shop now and save big!</p>
-    </div>
-</div>
-<div class="row row-cols-1 row-cols-md-4 g-4">
-    {# Example product cards, replace with dynamic content later #}
-    <div class="col">
-        <div class="card h-100 border-0 shadow-sm">
-            <img src="/images/products/placeholder1.jpg" class="card-img-top" alt="Designer Heels">
-            <div class="card-body">
-                <h5 class="card-title">Designer Heels</h5>
-                <p class="card-text text-muted mb-1"><del>$499</del> <span class="text-danger fw-bold">$299</span></p>
-                <a href="#" class="btn btn-dark w-100">View Details</a>
-            </div>
+<section class="py-11 bg-light-gradient border-bottom border-white border-5">
+  <div class="bg-holder overlay overlay-light" style="background-image:url('{{ asset('images/gallery/header-bg.png') }}');background-size:cover;"></div>
+  <div class="container">
+    <div class="row flex-center">
+      <div class="col-12 mb-10">
+        <div class="d-flex align-items-center flex-column">
+          <h1 class="fw-normal">With an outstanding style, only for you</h1>
+          <h1 class="fs-4 fs-lg-8 fs-md-6 fw-bold">Exclusively designed for you</h1>
         </div>
+      </div>
     </div>
-    <div class="col">
-        <div class="card h-100 border-0 shadow-sm">
-            <img src="/images/products/placeholder2.jpg" class="card-img-top" alt="Artisanal Jewelry">
-            <div class="card-body">
-                <h5 class="card-title">Artisanal Jewelry</h5>
-                <p class="card-text text-muted mb-1"><del>$299</del> <span class="text-danger fw-bold">$179</span></p>
-                <a href="#" class="btn btn-dark w-100">View Details</a>
-            </div>
+  </div>
+</section>
+<section class="py-0" id="header" style="margin-top: -8rem !important;">
+  <div class="container">
+    <div class="row g-0">
+      <div class="col-md-6">
+        <div class="card card-span h-100 text-white"> <img class="img-fluid" src="{{ asset('images/gallery/her.png') }}" width="790" alt="..." />
+          <div class="card-img-overlay d-flex flex-center"> <a class="btn btn-lg btn-light" href="#categoryWomen">For Her</a></div>
         </div>
-    </div>
-    <div class="col">
-        <div class="card h-100 border-0 shadow-sm">
-            <img src="/images/products/placeholder3.jpg" class="card-img-top" alt="Premium Wallet">
-            <div class="card-body">
-                <h5 class="card-title">Premium Wallet</h5>
-                <p class="card-text text-muted mb-1"><del>$199</del> <span class="text-danger fw-bold">$99</span></p>
-                <a href="#" class="btn btn-dark w-100">View Details</a>
-            </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card card-span h-100 text-white"> <img class="img-fluid" src="{{ asset('images/gallery/him.png') }}" width="790" alt="..." />
+          <div class="card-img-overlay d-flex flex-center"> <a class="btn btn-lg btn-light" href="#categoryMen">For Him</a></div>
         </div>
+      </div>
     </div>
-    <div class="col">
-        <div class="card h-100 border-0 shadow-sm">
-            <img src="/images/products/placeholder4.jpg" class="card-img-top" alt="Smartwatch">
-            <div class="card-body">
-                <h5 class="card-title">Smartwatch</h5>
-                <p class="card-text text-muted mb-1"><del>$399</del> <span class="text-danger fw-bold">$249</span></p>
-                <a href="#" class="btn btn-dark w-100">View Details</a>
+  </div>
+</section>
+<section class="py-0">
+  <div class="container">
+    <div class="row h-100">
+      <div class="col-lg-7 mx-auto text-center mt-7 mb-5">
+        <h5 class="fw-bold fs-3 fs-lg-5 lh-sm">Best Deals</h5>
+      </div>
+      <div class="col-12">
+        <div class="row g-4">
+          {% for product in products %}
+            <div class="col-sm-6 col-md-3 mb-4">
+              <div class="card card-span h-100 text-white">
+                <img class="img-fluid h-100" src="{{ asset(product.imageName ? 'images/' ~ product.imageName : 'images/placeholder.jpg') }}" alt="{{ product.name }}" style="height: 220px; object-fit: cover;">
+                <div class="card-body ps-0 bg-200">
+                  <h5 class="fw-bold text-1000 text-truncate">{{ product.name }}</h5>
+                  <div class="fw-bold mb-2">
+                    {# Only show old price if it exists, otherwise skip #}
+                    {% if product.oldPrice is defined and product.oldPrice %}
+                      <span class="text-600 me-2 text-decoration-line-through">{{ product.oldPrice|number_format(2, '.', ',') }} €</span>
+                    {% endif %}
+                    <span class="text-primary">{{ product.price|number_format(2, '.', ',') }} €</span>
+                  </div>
+                  <div class="mb-2">
+                    <span class="badge bg-light text-dark">Stock: {{ product.quantity }}</span>
+                  </div>
+                  <div class="d-flex flex-column gap-2">
+                    <a href="{{ path('app_product_show', {'id': product.id}) }}" class="btn btn-outline-dark btn-sm w-100 mb-2">
+                      <i class="bi bi-eye"></i> View
+                    </a>
+                    {% if product.quantity > 0 %}
+                      <form action="{{ path('cart_add', {'id': product.id}) }}" method="get" class="d-flex gap-2 align-items-center">
+                        <input type="number" name="quantity" value="1" min="1" max="{{ product.quantity }}" class="form-control form-control-sm" style="width:70px;">
+                        <button type="submit" class="btn btn-dark btn-sm w-100">
+                          <i class="bi bi-cart-plus"></i> Buy
+                        </button>
+                      </form>
+                    {% else %}
+                      <button class="btn btn-secondary btn-sm w-100" disabled>
+                        <i class="bi bi-x-circle"></i> Out of Stock
+                      </button>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
             </div>
+          {% else %}
+            <div class="col-12 text-center">
+              <div class="alert alert-warning">No products found.</div>
+            </div>
+          {% endfor %}
         </div>
+      </div>
+      <div class="col-12 d-flex justify-content-center mt-5"> <a class="btn btn-lg btn-dark" href="{{ path('app_product_index') }}">View All </a></div>
     </div>
-</div>
+  </div>
+</section>
 {% endblock %}

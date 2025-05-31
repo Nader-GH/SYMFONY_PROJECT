@@ -4,18 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Luxury Fashion Accessories{% endblock %}</title>
-    <link rel="stylesheet" href="/assets/css/theme.min.css">
+    <link rel="stylesheet" href="{{ asset('css/theme.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/theme-rtl.min.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap">
     {% block stylesheets %}{% endblock %}
 </head>
-<body style="background-color: #87CEEB;">
-    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom mb-4">
+<body>
+    {# Majestic theme navbar #}
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="/">Majestic-2</a>
+            <a class="navbar-brand d-flex align-items-center fw-bold fs-3" href="/">
+                <img src="{{ asset('images/majestic-logo.png') }}" alt="Majestic" style="height:32px; margin-right:8px;"> Majestic
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item"><a class="nav-link" href="{{ path('app_home') }}">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Women</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Men</a></li>
@@ -25,12 +30,15 @@
             </div>
         </div>
     </nav>
-    <div class="container d-flex align-items-center justify-content-center" style="min-height: 80vh;">
-        <div class="w-100" style="max-width: 400px;">
-            {% block body %}{% endblock %}
+    <main style="min-height: 80vh;">
+        {% block body %}{% endblock %}
+    </main>
+    <footer class="bg-light py-4 mt-5 border-top">
+        <div class="container text-center">
+            <span class="text-muted">&copy; {{ "now"|date("Y") }} Majestic. All rights reserved.</span>
         </div>
-    </div>
-    <script src="/assets/js/theme.min.js"></script>
+    </footer>
+    <script src="{{ asset('js/theme.min.js') }}"></script>
     {% block javascripts %}{% endblock %}
 </body>
 </html>

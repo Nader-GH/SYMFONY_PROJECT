@@ -1,31 +1,37 @@
 {% extends 'base.html.twig' %}
 {% block title %}Commande - Confirmation{% endblock %}
 {% block body %}
-<h1>Confirmation de la commande</h1>
-<table>
-    <thead>
-        <tr>
-            <th>Produit</th>
-            <th>Quantité</th>
-            <th>Prix unitaire</th>
-            <th>Total</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% set total = 0 %}
-        {% for product in products %}
-            <tr>
-                <td>{{ product.name }}</td>
-                <td>{{ cart[product.id] }}</td>
-                <td>{{ product.price|number_format(2, '.', ',') }} €</td>
-                <td>{{ (product.price * cart[product.id])|number_format(2, '.', ',') }} €</td>
-            </tr>
-            {% set total = total + (product.price * cart[product.id]) %}
-        {% endfor %}
-    </tbody>
-</table>
-<p><strong>Total : {{ total|number_format(2, '.', ',') }} €</strong></p>
-<form action="{{ path('checkout_confirm') }}" method="post">
-    <button type="submit">Confirmer la commande</button>
-</form>
+<div class="container py-5">
+    <h1 class="mb-4 text-center fw-bold">Order Confirmation</h1>
+    <div class="table-responsive">
+        <table class="table align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Unit Price</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% set total = 0 %}
+                {% for product in products %}
+                    <tr>
+                        <td class="fw-bold">{{ product.name }}</td>
+                        <td>{{ cart[product.id] }}</td>
+                        <td>{{ product.price|number_format(2, '.', ',') }} €</td>
+                        <td>{{ (product.price * cart[product.id])|number_format(2, '.', ',') }} €</td>
+                    </tr>
+                    {% set total = total + (product.price * cart[product.id]) %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="d-flex justify-content-between align-items-center mt-4">
+        <div class="fs-4 fw-bold">Total: {{ total|number_format(2, '.', ',') }} €</div>
+        <form action="{{ path('checkout_confirm') }}" method="post">
+            <button type="submit" class="btn btn-success"><i class="bi bi-check-circle"></i> Confirm Order</button>
+        </form>
+    </div>
+</div>
 {% endblock %}

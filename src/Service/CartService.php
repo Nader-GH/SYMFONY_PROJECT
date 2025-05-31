@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\Cart;
 use App\Entity\User;
 use App\Repository\CartRepository;
+use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -13,13 +14,15 @@ class CartService
     private $requestStack;
     private $entityManager;
     private $cartRepository;
+    private $productRepository;
     private const CART_KEY = 'cart';
 
-    public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager, CartRepository $cartRepository)
+    public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager, CartRepository $cartRepository, ProductRepository $productRepository)
     {
         $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
         $this->cartRepository = $cartRepository;
+        $this->productRepository = $productRepository;
     }
 
     private function getSession()
@@ -29,13 +32,19 @@ class CartService
 
     public function add(int $productId, int $quantity = 1): void
     {
+        $product = $this->productRepository->find($productId);
+        if (!$product || $product->getQuantity() < $quantity) {
+            // Not enough stock, do not add
+            return;
+        }
         $session = $this->getSession();
         $cart = $session->get(self::CART_KEY, []);
-        if (isset($cart[$productId])) {
-            $cart[$productId] += $quantity;
-        } else {
-            $cart[$productId] = $quantity;
+        $currentQty = $cart[$productId] ?? 0;
+        $newQty = $currentQty + $quantity;
+        if ($newQty > $product->getQuantity()) {
+            $newQty = $product->getQuantity();
         }
+        $cart[$productId] = $newQty;
         $session->set(self::CART_KEY, $cart);
     }
 
@@ -49,6 +58,11 @@ class CartService
 
     public function update(int $productId, int $quantity): void
     {
+        $product = $this->productRepository->find($productId);
+        if (!$product || $quantity > $product->getQuantity()) {
+            // Not enough stock, do not update
+            return;
+        }
         $session = $this->getSession();
         $cart = $session->get(self::CART_KEY, []);
         if ($quantity > 0) {

@@ -1,42 +1,51 @@
 {% extends 'base.html.twig' %}
 {% block title %}Mon Panier{% endblock %}
 {% block body %}
-<h1>Mon Panier</h1>
-<table>
-    <thead>
-        <tr>
-            <th>Produit</th>
-            <th>Quantité</th>
-            <th>Prix unitaire</th>
-            <th>Total</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% set total = 0 %}
-        {% for product in products %}
-            <tr>
-                <td>{{ product.name }}</td>
-                <td>{{ cart[product.id] }}</td>
-                <td>{{ product.price|number_format(2, '.', ',') }} €</td>
-                <td>{{ (product.price * cart[product.id])|number_format(2, '.', ',') }} €</td>
-                <td>
-                    <form action="{{ path('cart_update', {'id': product.id}) }}" method="post" style="display:inline;">
-                        <input type="number" name="quantity" value="{{ cart[product.id] }}" min="1" style="width:50px;">
-                        <button type="submit">Mettre à jour</button>
-                    </form>
-                    <a href="{{ path('cart_remove', {'id': product.id}) }}">Supprimer</a>
-                </td>
-            </tr>
-            {% set total = total + (product.price * cart[product.id]) %}
-        {% endfor %}
-    </tbody>
-</table>
-<p><strong>Total : {{ total|number_format(2, '.', ',') }} €</strong></p>
-<a href="{{ path('cart_clear') }}">Vider le panier</a>
-{% if app.user %}
-    <a href="{{ path('checkout') }}">Passer la commande</a>
-{% else %}
-    <a href="{{ path('app_login') }}">Connectez-vous pour commander</a>
-{% endif %}
+<div class="container py-5">
+    <h1 class="mb-4 text-center fw-bold">Mon Panier</h1>
+    <div class="table-responsive">
+        <table class="table align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>Produit</th>
+                    <th>Quantité</th>
+                    <th>Prix unitaire</th>
+                    <th>Total</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% set total = 0 %}
+                {% for product in products %}
+                    <tr>
+                        <td class="fw-bold">{{ product.name }}</td>
+                        <td>
+                            <form action="{{ path('cart_update', {'id': product.id}) }}" method="post" class="d-flex align-items-center gap-2">
+                                <input type="number" name="quantity" value="{{ cart[product.id] }}" min="1" class="form-control form-control-sm" style="width:70px;">
+                                <button type="submit" class="btn btn-outline-primary btn-sm"><i class="bi bi-arrow-repeat"></i></button>
+                            </form>
+                        </td>
+                        <td>{{ product.price|number_format(2, '.', ',') }} €</td>
+                        <td>{{ (product.price * cart[product.id])|number_format(2, '.', ',') }} €</td>
+                        <td>
+                            <a href="{{ path('cart_remove', {'id': product.id}) }}" class="btn btn-outline-danger btn-sm"><i class="bi bi-trash"></i></a>
+                        </td>
+                    </tr>
+                    {% set total = total + (product.price * cart[product.id]) %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="d-flex justify-content-between align-items-center mt-4">
+        <div class="fs-4 fw-bold">Total: {{ total|number_format(2, '.', ',') }} €</div>
+        <div>
+            <a href="{{ path('cart_clear') }}" class="btn btn-outline-secondary me-2"><i class="bi bi-x-circle"></i> Vider le panier</a>
+            {% if app.user %}
+                <a href="{{ path('checkout') }}" class="btn btn-success"><i class="bi bi-credit-card"></i> Passer à la commande</a>
+            {% else %}
+                <a href="{{ path('app_login') }}" class="btn btn-primary">Connectez-vous pour commander</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
 {% endblock %}
