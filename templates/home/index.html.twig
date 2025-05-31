@@ -43,7 +43,7 @@
           {% for product in products %}
             <div class="col-sm-6 col-md-3 mb-4">
               <div class="card card-span h-100 text-white">
-                <img class="img-fluid h-100" src="{{ asset(product.imageName ? 'images/' ~ product.imageName : 'images/placeholder.jpg') }}" alt="{{ product.name }}" style="height: 220px; object-fit: cover;">
+                <img class="img-fluid h-100" src="{{ asset(product.imageName ? 'images/products/' ~ product.imageName : 'images/placeholder.jpg') }}" alt="{{ product.name }}" style="height: 220px; object-fit: cover;">
                 <div class="card-body ps-0 bg-200">
                   <h5 class="fw-bold text-1000 text-truncate">{{ product.name }}</h5>
                   <div class="fw-bold mb-2">
