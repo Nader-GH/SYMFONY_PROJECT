@@ -24,3 +24,5 @@
 ###< symfony/asset-mapper ###
 
 !majestic-v1.0.1/
+# Allow database dump file for sharing data
+!db_dump.sql
