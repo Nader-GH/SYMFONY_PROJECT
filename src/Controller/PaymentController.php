@@ -4,7 +4,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class PaymentController extends AbstractController
@@ -16,9 +16,7 @@ class PaymentController extends AbstractController
         $this->params = $params;
     }
 
-    /**
-     * @Route("/payment", name="payment_form")
-     */
+    #[Route('/payment', name: 'payment_form')]
     public function paymentForm(): Response
     {
         $stripePublicKey = $_ENV['STRIPE_PUBLIC_KEY'] ?? $this->params->get('stripe_public_key');
@@ -27,9 +25,7 @@ class PaymentController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/payment/create-intent", name="payment_create_intent", methods={"POST"})
-     */
+    #[Route('/payment/create-intent', name: 'payment_create_intent', methods: ['POST'])]
     public function createPaymentIntent(Request $request): Response
     {
         $stripeSecretKey = $_ENV['STRIPE_SECRET_KEY'] ?? $this->params->get('stripe_secret_key');

@@ -29,9 +29,13 @@
     </div>
     <div class="d-flex justify-content-between align-items-center mt-4">
         <div class="fs-4 fw-bold">Total: {{ total|number_format(2, '.', ',') }} €</div>
-        <form action="{{ path('checkout_confirm') }}" method="post">
-            <button type="submit" class="btn btn-success"><i class="bi bi-check-circle"></i> Confirm Order</button>
-        </form>
+        <div class="d-flex gap-2">
+            <form action="{{ path('checkout_confirm') }}" method="post" class="d-inline">
+                <input type="hidden" name="payment_method" value="cash">
+                <button type="submit" class="btn btn-success"><i class="bi bi-cash"></i> Pay in Place</button>
+            </form>
+            <a href="/payment" class="btn btn-dark"><i class="bi bi-credit-card"></i> Pay with Stripe</a>
+        </div>
     </div>
 </div>
 {% endblock %}
