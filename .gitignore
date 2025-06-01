@@ -23,4 +23,4 @@
 /assets/vendor/
 ###< symfony/asset-mapper ###
 
-majestic-v1.0.1/
+!majestic-v1.0.1/
