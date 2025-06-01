@@ -37,20 +37,27 @@ class CheckoutController extends AbstractController
         $total = $cartService->getTotalPrice($products);
         $order = new Order();
         $order->setUser($this->getUser());
-        $order->setItems($cart);
-        $order->setTotalPrice($total);
-        $order->setStatus('Pending');
-        $order->setCreatedAt(new \DateTime());
-        // Decrement stock for each product in the order
+        // Build OrderItems from cart and add to Order
+        $orderItems = [];
         foreach ($products as $product) {
             $productId = $product->getId();
             if (isset($cart[$productId])) {
                 $orderedQty = $cart[$productId]['quantity'] ?? 1;
+                $orderItem = new \App\Entity\OrderItem();
+                $orderItem->setProduct($product);
+                $orderItem->setQuantity($orderedQty);
+                $orderItem->setPrice($product->getPrice());
+                $orderItems[] = $orderItem;
+                $order->addItem($orderItem);
+                // Decrement stock for each product in the order
                 $newQty = max(0, $product->getQuantity() - $orderedQty);
                 $product->setQuantity($newQty);
                 $em->persist($product);
             }
         }
+        $order->setTotalPrice($total);
+        $order->setStatus('Pending');
+        $order->setCreatedAt(new \DateTime());
         $em->persist($order);
         $em->flush();
         // Send order confirmation email

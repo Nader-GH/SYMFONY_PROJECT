@@ -108,4 +108,22 @@ class Order
         }
         return $this;
     }
+
+    /**
+     * Set the items for this order (replaces all existing items).
+     * @param iterable $items Array or Collection of OrderItem
+     * @return self
+     */
+    public function setItems(iterable $items): self
+    {
+        // Remove existing items
+        foreach ($this->items as $item) {
+            $this->removeItem($item);
+        }
+        // Add new items
+        foreach ($items as $item) {
+            $this->addItem($item);
+        }
+        return $this;
+    }
 }
